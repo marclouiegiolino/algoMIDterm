@@ -1,58 +1,53 @@
 ﻿using System;
 
-class BubbleSortDemo
+
+
+class SelectionSortDemo
 {
-
-
     static void ShowSort(int[] array)
     {
         Console.WriteLine("Original: " + string.Join(" , ", array));
-
-        BubbleSort(array);
+        SelectionSort(array);
 
         Console.WriteLine("Sorted: " + string.Join(" , ", array));
+
     }
 
-    static void BubbleSort(int[] arr)
+    static void SelectionSort(int[] arr)
     {
         int n = arr.Length;
-        bool swapped;
 
         for (int i = 0; i < n - 1; i++)
         {
-            swapped = false;
+            int minIndex = i;
 
-            for (int j = 0; j < n - i - 1; j++)
+            for (int j = i + 1; j < n; j++)
             {
-                if (arr[j] > arr[j + 1])
+                if (arr[j] < arr[minIndex])
                 {
-                    int temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                    swapped = true;
+                    minIndex = j;
                 }
             }
 
-            if (!swapped)
-                break;
+            int temp = arr[minIndex];
+
+            arr[minIndex] = arr[i];
+            arr[i] = temp;
         }
     }
+
     static void Main()
     {
 
-        Console.WriteLine("Enter Number separated with spaces");
+        Console.WriteLine("Enter Numbers Separated with spaces");
         string input = Console.ReadLine();
 
-        int[] userArray = new int[5];
+        int[] userInput = new int[5];
 
         string[] parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        userArray = Array.ConvertAll(parts, int.Parse);
+        userInput = Array.ConvertAll(parts, int.Parse);
 
-        Console.WriteLine("Bubble Sort Demonstration\n");
-
-        Console.WriteLine($"\nUser Input: { input}\n");
-        ShowSort(userArray);
-
+        Console.WriteLine($"User Input: {userInput}");
+        ShowSort(userInput);
     }
 }
-

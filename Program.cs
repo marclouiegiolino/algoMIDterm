@@ -1,79 +1,50 @@
 ﻿using System;
 
-class MergeSortDemo
+class BubbleSortDemo
 {
+    static void Main()
+    {
+        Console.WriteLine("\nEnter Words Separated by Spaces: ");
+        string words = Console.ReadLine();
 
-    static void ShowSort(int[] array)
+        string[] wordArray = new string[5];
+        string[] parts = words.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        Console.WriteLine($"\nUser Input: {words}");
+        ShowSort(parts);
+    }
+
+    static void ShowSort(string[] array)
     {
         Console.WriteLine("Original: " + string.Join(", ", array));
-        MergeSort(array, 0, array.Length - 1);
+        BubbleSort(array);
         Console.WriteLine("Sorted:   " + string.Join(", ", array));
     }
 
-
-    static void MergeSort(int[] arr, int left, int right)
+    static void BubbleSort(string[] arr)
     {
-        if (left < right)
+        int n = arr.Length;
+        bool swapped;
+
+        for (int i = 0; i < n - 1; i++)
         {
-            int middle = (left + right) / 2;
+            swapped = false;
 
-            MergeSort(arr, left, middle);
-            MergeSort(arr, middle + 1, right);
-
-            Merge(arr, left, middle, right);
-        }
-    }
-
-    static void Merge(int[] arr, int left, int middle, int right)
-    {
-        int n1 = middle - left + 1;
-        int n2 = right - middle;
-
-        int[] L = new int[n1];
-        int[] R = new int[n2];
-
-        Array.Copy(arr, left, L, 0, n1);
-        Array.Copy(arr, middle + 1, R, 0, n2);
-
-        int i = 0, j = 0, k = left;
-
-        while (i < n1 && j < n2)
-        {
-            if (L[i] <= R[j])
+            for (int j = 0; j < n - i - 1; j++)
             {
-                arr[k++] = L[i++];
+             
+                if (string.Compare(arr[j], arr[j + 1]) > 0)
+                {
+                   
+                    string temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                    swapped = true;
+                }
             }
-            else
-            {
-                arr[k++] = R[j++];
-            }
-        }
 
-        while (i < n1)
-        {
-            arr[k++] = L[i++];
-        }
-
-        while (j < n2)
-        {
-            arr[k++] = R[j++];
+          
+            if (!swapped)
+                break;
         }
     }
-
-    static void Main()
-    {
-        Console.WriteLine("Enter Number Separated With Spaces: ");
-        string input = Console.ReadLine();
-
-        int[] inputArray = new int[5];
-
-        string[] parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        inputArray = Array.ConvertAll(parts, int.Parse);
-
-        Console.WriteLine($"User Inputs: {input}");
-
-        ShowSort(inputArray);
-    }
-
-    
 }

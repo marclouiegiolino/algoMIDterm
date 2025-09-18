@@ -1,53 +1,79 @@
 ﻿using System;
 
-
-
-class SelectionSortDemo
+class MergeSortDemo
 {
+
     static void ShowSort(int[] array)
     {
-        Console.WriteLine("Original: " + string.Join(" , ", array));
-        SelectionSort(array);
-
-        Console.WriteLine("Sorted: " + string.Join(" , ", array));
-
+        Console.WriteLine("Original: " + string.Join(", ", array));
+        MergeSort(array, 0, array.Length - 1);
+        Console.WriteLine("Sorted:   " + string.Join(", ", array));
     }
 
-    static void SelectionSort(int[] arr)
+
+    static void MergeSort(int[] arr, int left, int right)
     {
-        int n = arr.Length;
-
-        for (int i = 0; i < n - 1; i++)
+        if (left < right)
         {
-            int minIndex = i;
+            int middle = (left + right) / 2;
 
-            for (int j = i + 1; j < n; j++)
+            MergeSort(arr, left, middle);
+            MergeSort(arr, middle + 1, right);
+
+            Merge(arr, left, middle, right);
+        }
+    }
+
+    static void Merge(int[] arr, int left, int middle, int right)
+    {
+        int n1 = middle - left + 1;
+        int n2 = right - middle;
+
+        int[] L = new int[n1];
+        int[] R = new int[n2];
+
+        Array.Copy(arr, left, L, 0, n1);
+        Array.Copy(arr, middle + 1, R, 0, n2);
+
+        int i = 0, j = 0, k = left;
+
+        while (i < n1 && j < n2)
+        {
+            if (L[i] <= R[j])
             {
-                if (arr[j] < arr[minIndex])
-                {
-                    minIndex = j;
-                }
+                arr[k++] = L[i++];
             }
+            else
+            {
+                arr[k++] = R[j++];
+            }
+        }
 
-            int temp = arr[minIndex];
+        while (i < n1)
+        {
+            arr[k++] = L[i++];
+        }
 
-            arr[minIndex] = arr[i];
-            arr[i] = temp;
+        while (j < n2)
+        {
+            arr[k++] = R[j++];
         }
     }
 
     static void Main()
     {
-
-        Console.WriteLine("Enter Numbers Separated with spaces");
+        Console.WriteLine("Enter Number Separated With Spaces: ");
         string input = Console.ReadLine();
 
-        int[] userInput = new int[5];
+        int[] inputArray = new int[5];
 
         string[] parts = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        userInput = Array.ConvertAll(parts, int.Parse);
+        inputArray = Array.ConvertAll(parts, int.Parse);
 
-        Console.WriteLine($"User Input: {userInput}");
-        ShowSort(userInput);
+        Console.WriteLine($"User Inputs: {input}");
+
+        ShowSort(inputArray);
     }
+
+    
 }
